@@ -1,0 +1,38 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::502826260777:role/github-oidc-deploy
+          aws-region: us-east-2
+
+      - name: Build & Push Docker Image
+        run: |
+          aws ecr describe-repositories --repository-names lizdms-api || \
+            aws ecr create-repository --repository-name lizdms-api
+
+          docker build -t lizdms-api ./apps/api
+          aws ecr get-login-password | docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+          docker tag lizdms-api:latest 502826260777.dkr.ecr.us-east-1.amazonaws.com/lizdms-api:${{ github.sha }}
+          docker push 502826260777.dkr.ecr.us-east-1.amazonaws.com/lizdms-api:${{ github.sha }}
+
+      - name: Deploy CDK
+        run: |
+          cd infra
+          npm install
+          npx cdk deploy --require-approval never
+
