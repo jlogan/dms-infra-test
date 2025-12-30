@@ -9,6 +9,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 
 interface StagingStackProps extends cdk.StackProps {
   vpcCidr?: string;
@@ -21,15 +22,17 @@ export class StagingStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: StagingStackProps) {
     super(scope, id, props);
 
-    const vpcCidr = props?.vpcCidr ?? '10.17.0.0/16';
+     //  Configurable Settings
+    const vpcCidr = props?.vpcCidr ?? '10.0.0.0/16';
     const publicSubnetMask = props?.publicSubnetMask ?? 24;
     const privateSubnetMask = props?.privateSubnetMask ?? 24;
     const maxAzs = props?.maxAzs ?? 2;
 
-     //  VPC
+      // VPC
     const vpc = new ec2.Vpc(this, 'Vpc', {
-      maxAzs,
       cidr: vpcCidr,
+      maxAzs,
+      natGateways: 1,
       subnetConfiguration: [
         {
           name: 'Public',
@@ -42,10 +45,9 @@ export class StagingStack extends cdk.Stack {
           cidrMask: privateSubnetMask,
         },
       ],
-      natGateways: 1,
     });
 
-       //S3 Buckets
+      // S3 Buckets
     const docsBucket = new s3.Bucket(this, 'DocsBucket', {
       bucketName: 'lizdms-staging-docs',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -58,7 +60,7 @@ export class StagingStack extends cdk.Stack {
       autoDeleteObjects: true,
     });
 
-       // SQS + DLQ
+      // SQS + DLQ
     const dlq = new sqs.Queue(this, 'ProcessingDLQ', {
       queueName: 'lizdms-staging-processing-dlq',
     });
@@ -77,13 +79,12 @@ export class StagingStack extends cdk.Stack {
       clusterName: 'lizdms-staging-cluster',
     });
 
-       // Task Definition
+      // Task Definition
     const taskDef = new ecs.FargateTaskDefinition(this, 'TaskDef', {
       cpu: 256,
       memoryLimitMiB: 512,
     });
 
-       // IAM Permissions
     taskDef.addToTaskRolePolicy(
       new iam.PolicyStatement({
         actions: ['s3:GetObject', 's3:PutObject', 'sqs:SendMessage'],
@@ -91,14 +92,14 @@ export class StagingStack extends cdk.Stack {
       })
     );
 
-       // ECR Repository
+      // ECR Repository
     const repo = ecr.Repository.fromRepositoryName(
       this,
       'ApiRepository',
       'lizdms-api'
     );
 
-       // Container Definition
+      // Container
     const container = taskDef.addContainer('ApiContainer', {
       image: ecs.ContainerImage.fromEcrRepository(repo),
       logging: ecs.LogDrivers.awsLogs({
@@ -116,8 +117,8 @@ export class StagingStack extends cdk.Stack {
     container.addPortMappings({
       containerPort: 3000,
     });
-
-       // ECS Service
+	
+      // ECS Service
     const service = new ecs.FargateService(this, 'Service', {
       cluster,
       taskDefinition: taskDef,
@@ -125,26 +126,44 @@ export class StagingStack extends cdk.Stack {
       assignPublicIp: false,
     });
 
-     //  Application Load Balancer
+      // Application Load Balancer
     const alb = new elbv2.ApplicationLoadBalancer(this, 'ALB', {
       vpc,
       internetFacing: true,
-      loadBalancerName: 'lizdms-staging-alb',
     });
 
-    const listener = alb.addListener('HttpListener', {
-      port: 80,
+      // ACM Certificate (us-east-2)
+    const certificate = acm.Certificate.fromCertificateArn(
+      this,
+      'AlbCertificate',
+      'arn:aws:acm:us-east-2:502826260777:certificate/38022fb5-d579-401b-8b62-90c47bb6c2af'
+    );
+
+      // HTTPS Listener (443)
+    const httpsListener = alb.addListener('HttpsListener', {
+      port: 443,
+      certificates: [certificate],
       open: true,
     });
 
-    listener.addTargets('EcsTargets', {
+    httpsListener.addTargets('EcsTargets', {
       port: 80,
       targets: [service],
       healthCheck: {
         path: '/',
-        interval: cdk.Duration.seconds(30),
         healthyHttpCodes: '200',
       },
+    });
+
+      // HTTP → HTTPS Redirect
+    alb.addListener('HttpRedirect', {
+      port: 80,
+      open: true,
+      defaultAction: elbv2.ListenerAction.redirect({
+        protocol: 'HTTPS',
+        port: '443',
+        permanent: true,
+      }),
     });
 
       // Outputs
@@ -152,12 +171,16 @@ export class StagingStack extends cdk.Stack {
       value: alb.loadBalancerDnsName,
     });
 
-    new cdk.CfnOutput(this, 'VpcCidr', { value: vpc.vpcCidrBlock });
-    new cdk.CfnOutput(this, 'PublicSubnets', {
-      value: vpc.publicSubnets.map((s) => s.subnetId).join(','),
+    new cdk.CfnOutput(this, 'VpcCidr', {
+      value: vpc.vpcCidrBlock,
     });
+
+    new cdk.CfnOutput(this, 'PublicSubnets', {
+      value: vpc.publicSubnets.map(s => s.subnetId).join(','),
+    });
+
     new cdk.CfnOutput(this, 'PrivateSubnets', {
-      value: vpc.privateSubnets.map((s) => s.subnetId).join(','),
+      value: vpc.privateSubnets.map(s => s.subnetId).join(','),
     });
   }
 }
