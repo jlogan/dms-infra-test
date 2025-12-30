@@ -1,0 +1,365 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "LizDmsStagingStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "LizDmsStagingStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "LizDmsStagingStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://502826260777/us-east-2",
+      "properties": {
+        "templateFile": "LizDmsStagingStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::502826260777:role/cdk-hnb659fds-deploy-role-502826260777-us-east-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::502826260777:role/cdk-hnb659fds-cfn-exec-role-502826260777-us-east-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-502826260777-us-east-2/96c005db4d949c33de890727a5aed653ace668162421edae2edfd24f724c4325.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "LizDmsStagingStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::502826260777:role/cdk-hnb659fds-lookup-role-502826260777-us-east-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "LizDmsStagingStack.assets"
+      ],
+      "metadata": {
+        "/LizDmsStagingStack/Vpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Vpc8378EB38"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet1Subnet5C2D37C4"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet1RouteTable6C95E38E"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet1RouteTableAssociation97140677"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet1DefaultRoute3DA9E72A"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet1EIPD7E02669"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet1NATGateway4D7517AA"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet2Subnet691E08A3"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet2RouteTable94F7E489"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet2RouteTableAssociationDD5762D8"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPublicSubnet2DefaultRoute97F91067"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPrivateSubnet1Subnet536B997A"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPrivateSubnet1RouteTableB2C5B500"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPrivateSubnet1RouteTableAssociation70C59FA6"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPrivateSubnet1DefaultRouteBE02A9ED"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPrivateSubnet2Subnet3788AAA1"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPrivateSubnet2RouteTableA678073B"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPrivateSubnet2RouteTableAssociationA89CAD56"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcPrivateSubnet2DefaultRoute060D2087"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcIGWD7BA715C"
+          }
+        ],
+        "/LizDmsStagingStack/Vpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcVPCGWBF912B6E"
+          }
+        ],
+        "/LizDmsStagingStack/DocsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocsBucketECEA003F"
+          }
+        ],
+        "/LizDmsStagingStack/DocsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocsBucketPolicy7BCF1FB7"
+          }
+        ],
+        "/LizDmsStagingStack/DocsBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocsBucketAutoDeleteObjectsCustomResourceADA97380"
+          }
+        ],
+        "/LizDmsStagingStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/LizDmsStagingStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/LizDmsStagingStack/OutputsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OutputsBucket24CB89DF"
+          }
+        ],
+        "/LizDmsStagingStack/OutputsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OutputsBucketPolicy1BAA4ABE"
+          }
+        ],
+        "/LizDmsStagingStack/OutputsBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OutputsBucketAutoDeleteObjectsCustomResource74769A63"
+          }
+        ],
+        "/LizDmsStagingStack/ProcessingDLQ/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessingDLQ145B1707"
+          }
+        ],
+        "/LizDmsStagingStack/ProcessingQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessingQueue6DC600C3"
+          }
+        ],
+        "/LizDmsStagingStack/Cluster/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ClusterEB0386A7"
+          }
+        ],
+        "/LizDmsStagingStack/TaskDef/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefTaskRole1EDB4A67"
+          }
+        ],
+        "/LizDmsStagingStack/TaskDef/TaskRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefTaskRoleDefaultPolicyA592CB18"
+          }
+        ],
+        "/LizDmsStagingStack/TaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDef54694570"
+          }
+        ],
+        "/LizDmsStagingStack/TaskDef/ApiContainer/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefApiContainerLogGroupEEE1C752"
+          }
+        ],
+        "/LizDmsStagingStack/TaskDef/ExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefExecutionRoleB4775C97"
+          }
+        ],
+        "/LizDmsStagingStack/TaskDef/ExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefExecutionRoleDefaultPolicy0DBB737A"
+          }
+        ],
+        "/LizDmsStagingStack/Service/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceD69D759B"
+          }
+        ],
+        "/LizDmsStagingStack/Service/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceSecurityGroupC96ED6A7"
+          }
+        ],
+        "/LizDmsStagingStack/Service/SecurityGroup/from LizDmsStagingStackALBSecurityGroup42923774:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceSecurityGroupfromLizDmsStagingStackALBSecurityGroup42923774300062A18952"
+          }
+        ],
+        "/LizDmsStagingStack/ALB/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ALBAEE750D2"
+          }
+        ],
+        "/LizDmsStagingStack/ALB/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ALBSecurityGroup8B8624F8"
+          }
+        ],
+        "/LizDmsStagingStack/ALB/SecurityGroup/to LizDmsStagingStackServiceSecurityGroupD7223498:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ALBSecurityGrouptoLizDmsStagingStackServiceSecurityGroupD722349830001D51FE20"
+          }
+        ],
+        "/LizDmsStagingStack/ALB/HttpListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ALBHttpListener04CE8CD0"
+          }
+        ],
+        "/LizDmsStagingStack/ALB/HttpListener/EcsTargetsGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ALBHttpListenerEcsTargetsGroup5E5145C6"
+          }
+        ],
+        "/LizDmsStagingStack/AlbDnsName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AlbDnsName"
+          }
+        ],
+        "/LizDmsStagingStack/VpcCidr": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcCidr"
+          }
+        ],
+        "/LizDmsStagingStack/PublicSubnets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicSubnets"
+          }
+        ],
+        "/LizDmsStagingStack/PrivateSubnets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PrivateSubnets"
+          }
+        ],
+        "/LizDmsStagingStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/LizDmsStagingStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/LizDmsStagingStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "LizDmsStagingStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

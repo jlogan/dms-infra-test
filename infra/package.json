@@ -1,0 +1,25 @@
+{
+  "name": "liz-dms-infra",
+  "version": "0.1.0",
+  "bin": {
+    "liz-dms-infra": "bin/app.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "synth": "cdk synth",
+    "diff": "cdk diff",
+    "deploy": "cdk deploy",
+    "destroy": "cdk destroy"
+  },
+  "devDependencies": {
+    "aws-cdk": "2.130.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.130.0",
+    "constructs": "^10.3.0"
+  }
+}
+
