@@ -26,7 +26,7 @@ jobs:
             aws ecr create-repository --repository-name lizdms-api
 
           docker build -t lizdms-api ./apps/api
-          aws ecr get-login-password | docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+          aws ecr get-login-password | docker login --username AWS --password-stdin 502826260777.dkr.ecr.us-east-1.amazonaws.com
           docker tag lizdms-api:latest 502826260777.dkr.ecr.us-east-1.amazonaws.com/lizdms-api:${{ github.sha }}
           docker push 502826260777.dkr.ecr.us-east-1.amazonaws.com/lizdms-api:${{ github.sha }}
 
